@@ -5,10 +5,12 @@
     <title>Title</title>
 </head>
 <body>
+    {# displays all reminders present#}
     {% for x in reminders %}
         <h1>{{ x.title }}</h1>
         <h2>{{ x.reminder_time }}</h2>
     {% endfor %}
-    <a href="add">Add Post</a>
+    {# link to create a new reminder#}
+    <a href="add">Add Reminder</a>
 </body>
 </html>
