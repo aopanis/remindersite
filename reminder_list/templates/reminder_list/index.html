@@ -7,7 +7,7 @@
 <body>
     {# displays all reminders present#}
     {% for x in reminders %}
-        <h1>{{ x.title }}</h1>
+    <h1><a href="{{ x.pk }}">{{ x.title }}</a></h1>
         <h2>{{ x.reminder_time }}</h2>
     {% endfor %}
     {# link to create a new reminder#}

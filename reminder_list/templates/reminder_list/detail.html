@@ -1,0 +1,12 @@
+<html>
+    <head>
+        <title>Detail</title>
+    </head>
+    <body>
+        <h1>{{ reminder.title }}</h1>
+        <h2>{{ reminder.description }}</h2>
+        <p>{{ reminder.reminder_time }}</p>
+        <a href="/delete/{{ reminder.pk }}">Delete</a>
+        <a href="/edit/{{ reminder.pk }}">Edit</a>
+    </body>
+</html>
