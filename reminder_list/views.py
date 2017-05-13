@@ -14,7 +14,7 @@ from .forms import ReminderForm
 # View for the index of the website, displays the index template
 # TODO order notifications by urgency
 def index(request):
-    reminders = Reminder.objects.all()
+    reminders = Reminder.objects.all().order_by('reminder_time')
     return render(request, 'reminder_list/index.html', {'reminders': reminders})
 
 
