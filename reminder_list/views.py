@@ -12,6 +12,7 @@ from .forms import ReminderForm
 
 
 # View for the index of the website, displays the index template
+# TODO order notifications by urgency
 def index(request):
     reminders = Reminder.objects.all()
     return render(request, 'reminder_list/index.html', {'reminders': reminders})
@@ -19,20 +20,30 @@ def index(request):
 
 # View to add a new reminder, displays the add_reminder template
 def edit(request, action):
-    if action=='new':
+    if action == 'new':
         form = ReminderForm()
+        pk = -1
     else:
         form = ReminderForm(instance=Reminder.objects.get(pk=action))
-    return render(request, 'reminder_list/add_reminder.html', {'form': form})
+        pk = action
+    return render(request, 'reminder_list/add_reminder.html', {'form': form, 'pk': pk})
 
 
 # View for creating a new reminder, receives info from add_reminder template and adds a new entry to the DB
 def successful_add(request):
-    new_reminder = Reminder(title=request.POST['title'],
-                            description=request.POST['description'],
-                            reminder_time=dateutil.parser.parse(
-                                request.POST['reminder_time']))
-    new_reminder.save()
+    pk = int(request.POST['pk'])
+    if pk > 0:
+        reminder = Reminder.objects.get(pk=pk)
+        reminder.title = request.POST['title']
+        reminder.description = request.POST['description']
+        reminder.reminder_time = dateutil.parser.parse(request.POST['reminder_time'])
+        reminder.save()
+    else:
+        new_reminder = Reminder(title=request.POST['title'],
+                                description=request.POST['description'],
+                                reminder_time=dateutil.parser.parse(
+                                    request.POST['reminder_time']))
+        new_reminder.save()
     return HttpResponseRedirect(reverse('reminder_list:index'))
 
 
@@ -47,6 +58,8 @@ def delete(request, question_id):
     reminder.delete()
     return HttpResponseRedirect(reverse('reminder_list:index'))
 
+
+# TODO add support for editing existing reminders
 @api_view(['GET', 'POST'])
 @permission_classes((permissions.AllowAny,))
 def reminder_api(request):
