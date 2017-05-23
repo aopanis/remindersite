@@ -5,7 +5,7 @@ from reminder_list.models import Reminder
 class ReminderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reminder
-        fields = ('title', 'reminder_time', 'description')
+        fields = ('title', 'reminder_time', 'description', 'pk')
 
     def create(self, validated_data):
         return Reminder.objects.create(**validated_data)
