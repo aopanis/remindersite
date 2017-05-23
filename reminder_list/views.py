@@ -77,3 +77,8 @@ def reminder_api(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def clear(request):
+    Reminder.objects.all().delete()
+    return HttpResponseRedirect(reverse('reminder_list:index'))
