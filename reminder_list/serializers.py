@@ -3,7 +3,7 @@ from reminder_list.models import Reminder
 
 
 class ReminderSerializer(serializers.ModelSerializer):
-    description = serializers.CharField(max_length=500, required=False, blank=True)
+    description = serializers.CharField(max_length=500, required=False)
     class Meta:
         model = Reminder
         fields = ('title', 'reminder_time', 'description', 'pk')
